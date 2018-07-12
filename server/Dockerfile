@@ -1,5 +1,5 @@
-FROM bijukunjummen/rabbitmq-base:3.7.0
-MAINTAINER Biju Kunjummen biju.kunjummen@gmail.com
+FROM registry.int.mimikko.cn/rabbitmq-base:3.7.0
+MAINTAINER xiepeng se_xiepeng@hetaozs.com
 
 ADD rabbitmq.config /etc/rabbitmq/
 ADD erlang.cookie /var/lib/rabbitmq/.erlang.cookie

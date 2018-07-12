@@ -1,5 +1,5 @@
 FROM centos
-MAINTAINER Biju Kunjummen biju.kunjummen@gmail.com
+MAINTAINER xiepeng se_xiepeng@hetaozs.com
 
 RUN yum install -y wget unzip tar
 

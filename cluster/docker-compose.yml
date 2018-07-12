@@ -1,33 +1,46 @@
-rabbit1:
-  image: bijukunjummen/rabbitmq-server:3.7.0
-  hostname: rabbit1
-  ports:
-    - "5672:5672"
-    - "15672:15672"
-  environment:
-    - RABBITMQ_DEFAULT_USER=myuser
-    - RABBITMQ_DEFAULT_PASS=mypass
-rabbit2:
-  image: bijukunjummen/rabbitmq-server:3.7.0
-  hostname: rabbit2
-  links:
-    - rabbit1
-  environment: 
-   - CLUSTERED=true
-   - CLUSTER_WITH=rabbit1
-   - RAM_NODE=true
-  ports:
+version: '3'
+
+services:
+
+  rabbit1:
+    image: registry.int.mimikko.cn/rabbitmq-server:3.7.0
+    environment:
+      - RABBITMQ_DEFAULT_USER=delxie
+      - RABBITMQ_DEFAULT_PASS=delxie
+    deploy:
+      replicas: 1
+    networks:
+      - "mimikko-network"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  rabbit2:
+    image: registry.int.mimikko.cn/rabbitmq-server:3.7.0
+    environment:
+     - CLUSTERED=true
+     - CLUSTER_WITH=rabbit1
+     - RAM_NODE=true
+    deploy:
+      replicas: 1
+    networks:
+      - "mimikko-network"
+    ports:
       - "5673:5672"
       - "15673:15672"
 
-rabbit3:
-  image: bijukunjummen/rabbitmq-server:3.7.0
-  hostname: rabbit3
-  links:
-    - rabbit1
-    - rabbit2
-  environment: 
-   - CLUSTERED=true
-   - CLUSTER_WITH=rabbit1
-  ports:
-        - "5674:5672"
+  rabbit3:
+    image: registry.int.mimikko.cn/rabbitmq-server:3.7.0
+    environment:
+     - CLUSTERED=true
+     - CLUSTER_WITH=rabbit1
+    deploy:
+      replicas: 1
+    networks:
+      - "mimikko-network"
+    ports:
+      - "5674:5672"
+
+networks:
+  mimikko-network:
+    external: true
